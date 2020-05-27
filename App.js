@@ -3,6 +3,7 @@ import { StyleSheet, View, StatusBar, SafeAreaView } from "react-native";
 
 import Haeder from "./Components/Haeder";
 import Menu from "./Components/Menu";
+import QrCode from "./Components/QrCode";
 
 export default function App(props) {
   const [returnValue, setReturnValue] = useState(""); //성공 여부
