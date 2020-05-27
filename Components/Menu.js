@@ -1,9 +1,13 @@
-import * as React from "react";
+import React, { useEffect } from "react";
 import { Surface, Text } from "react-native-paper";
 import { StyleSheet, View, Dimensions } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
-function Menu() {
+import QrCode from "./QrCode";
+
+function Menu({ navigation }) {
   const setSurface = (color) => {
     return {
       padding: 8,
@@ -20,12 +24,13 @@ function Menu() {
       backgroundColor: color,
     };
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.view}>
         <Surface style={setSurface("#ebeae4")}>
           <AntDesign name="qrcode" size={100} color="black" />
-          <Text>QR 코드</Text>
+          <Text onPress={() => navigation.navigate("QRCODE")}>QR 코드</Text>
         </Surface>
         <Surface style={setSurface("#ebeae4")}>
           <AntDesign name="hourglass" size={100} color="black" />

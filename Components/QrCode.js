@@ -7,13 +7,15 @@ import {
   TouchableOpacity,
   Linking,
   View,
-  Button,
 } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { Button, DataTable } from "react-native-paper";
 
 function QrCode() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+
+  const [numbersArr, setNumbersArr] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -24,7 +26,15 @@ function QrCode() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    //alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(data);
+    let rndStr = data.split("=");
+    let lottoData = rndStr[1].split("q");
+    let round = lottoData[0];
+
+    for (let i = 1; i < lottoData.length; i++) {
+      setNumbersArr((numbersArr) => [...numbersArr, lottoData[i]]);
+    }
   };
 
   if (hasPermission === null) {
@@ -40,6 +50,9 @@ function QrCode() {
         flex: 1,
         flexDirection: "column",
         justifyContent: "flex-end",
+        justifyContent: "center",
+        alignItems: "center",
+        margintop: 10,
       }}
     >
       <BarCodeScanner
@@ -48,7 +61,15 @@ function QrCode() {
       />
 
       {scanned && (
-        <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
+        <Button
+          icon="qrcode"
+          mode="contained"
+          color="white"
+          onPress={() => setScanned(false)}
+          labelStyle={{ fontSize: 30 }}
+        >
+          다시 스캔하기
+        </Button>
       )}
     </View>
   );

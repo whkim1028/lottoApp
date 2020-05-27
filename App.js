@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, StatusBar, SafeAreaView } from "react-native";
-
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  SafeAreaView,
+  Dimensions,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Surface, Text } from "react-native-paper";
+import { AntDesign } from "@expo/vector-icons";
 import Haeder from "./Components/Haeder";
-import Menu from "./Components/Menu";
 import QrCode from "./Components/QrCode";
 
-export default function App(props) {
+function Home({ navigation }) {
   const [returnValue, setReturnValue] = useState(""); //성공 여부
   const [currRound, setCurrRound] = useState(""); //회차 정보
   const [drwNoDate, setDrwNoDate] = useState(""); //회차 시행 날짜
@@ -23,6 +31,23 @@ export default function App(props) {
   let ROUND = "911";
   const ROUND_DATE = new Date(2020, 5, 16);
   const CURR_DATE = new Date();
+
+  const setSurface = (color) => {
+    return {
+      padding: 8,
+      width: Dimensions.get("window").width * 0.29,
+      height: Dimensions.get("window").height * 0.16,
+      alignItems: "center",
+      justifyContent: "center",
+      elevation: 2,
+      marginLeft: 10,
+      marginRight: 10,
+      marginBottom: 10,
+      marginTop: 10,
+
+      backgroundColor: color,
+    };
+  };
 
   const changeRoundBefore = (currRound) => {
     let before = parseInt(currRound) - 1;
@@ -164,7 +189,38 @@ export default function App(props) {
         changeRoundBefore={() => changeRoundBefore(currRound)}
       ></Haeder>
       <View style={styles.menuInfoArea}>
-        <Menu></Menu>
+        <View style={styles.container1}>
+          <View style={styles.view}>
+            <Surface
+              onTouchEnd={() => navigation.navigate("QRCODE")}
+              style={setSurface("#ebeae4")}
+            >
+              <AntDesign name="qrcode" size={100} color="black" />
+              <Text>QR 코드</Text>
+            </Surface>
+            <Surface style={setSurface("#ebeae4")}>
+              <AntDesign name="hourglass" size={100} color="black" />
+              <Text>번호 생성기</Text>
+            </Surface>
+            <Surface style={setSurface("#ebeae4")}>
+              <AntDesign name="dotchart" size={100} color="black" />
+              <Text>당첨번호 통계</Text>
+            </Surface>
+          </View>
+          <View style={styles.view}>
+            <Surface style={setSurface("#ebeae4")}>
+              <AntDesign name="isv" size={100} color="black" />
+              <Text>내 주변 판매점</Text>
+            </Surface>
+            <Surface style={setSurface("#ebeae4")}>
+              <AntDesign name="laptop" size={100} color="black" />
+              <Text>번호 시뮬레이션</Text>
+            </Surface>
+            <Surface style={setSurface("#ebeae4")}>
+              <Text>의견보내기</Text>
+            </Surface>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -183,4 +239,27 @@ const styles = StyleSheet.create({
   haederStyle: {
     flex: 4,
   },
+  view: {
+    flexDirection: "row",
+    flex: 0.27,
+  },
+  container1: {
+    flex: 1,
+    alignItems: "center",
+  },
 });
+
+const Stack = createStackNavigator();
+
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="HOME" component={Home} />
+        <Stack.Screen name="QRCODE" component={QrCode} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
+export default App;
