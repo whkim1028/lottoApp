@@ -22,7 +22,7 @@ function Home({ navigation }) {
   const [firstPrzwnerCo, setFirstPrzwnerCo] = useState(0); // 1등 당첨자수
   const [drwtNo1, setDrwtNo1] = useState(""); //당첨번호1
   const [drwtNo2, setDrwtNo2] = useState(""); //당첨번호2
-  const [drwtNo3, setDrwtNo3] = useState(""); //당첨번호3d
+  const [drwtNo3, setDrwtNo3] = useState(""); //당첨번호3
   const [drwtNo4, setDrwtNo4] = useState(""); //당첨번호4
   const [drwtNo5, setDrwtNo5] = useState(""); //당첨번호5
   const [drwtNo6, setDrwtNo6] = useState(""); //당첨번호6
