@@ -23,6 +23,7 @@ function QrData(props) {
     drwtNo6,
     bnusNo,
     scanned,
+    returnValue,
   } = props;
 
   const [game1, setGame1] = useState(props.game1);
@@ -62,6 +63,7 @@ function QrData(props) {
         }
         setGame1Result("3등");
       } else if (cnt == 4) {
+        d;
         setGame1Result("4등");
       } else if (cnt == 3) {
         setGame1Result("5등");
@@ -265,29 +267,29 @@ function QrData(props) {
       <DataTable.Row style={styles.dataRowStyle}>
         <DataTable.Cell style={styles.dataCellStyle}>1게임</DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {game1.substr(0, 2)}
+          {game1 != "" ? game1.substr(0, 2) : ""}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {game1.substr(2, 2)}
+          {game1 != "" ? game1.substr(2, 2) : ""}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {game1.substr(4, 2)}
+          {game1 != "" ? game1.substr(4, 2) : ""}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {game1.substr(6, 2)}
+          {game1 != "" ? game1.substr(6, 2) : ""}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {game1.substr(8, 2)}
+          {game1 != "" ? game1.substr(8, 2) : ""}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {game1.substr(10, 2)}
+          {game1 != "" ? game1.substr(10, 2) : ""}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
           {" "}
           {"+"}{" "}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {bnusNo}
+          {bnusNo != "" ? bnusNo : ""}
         </DataTable.Cell>
         <DataTable.Cell
           numeric
@@ -322,7 +324,7 @@ function QrData(props) {
           {"+"}{" "}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {bnusNo}
+          {bnusNo != "" ? bnusNo : ""}
         </DataTable.Cell>
         <DataTable.Cell
           numeric
@@ -357,7 +359,7 @@ function QrData(props) {
           {"+"}{" "}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {bnusNo}
+          {bnusNo != "" ? bnusNo : ""}
         </DataTable.Cell>
         <DataTable.Cell
           numeric
@@ -392,7 +394,7 @@ function QrData(props) {
           {"+"}{" "}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {bnusNo}
+          {bnusNo != "" ? bnusNo : ""}
         </DataTable.Cell>
         <DataTable.Cell
           numeric
@@ -426,7 +428,7 @@ function QrData(props) {
           {"+"}
         </DataTable.Cell>
         <DataTable.Cell numeric style={styles.dataCellStyle}>
-          {bnusNo}
+          {bnusNo != "" ? bnusNo : ""}
         </DataTable.Cell>
         <DataTable.Cell
           numeric

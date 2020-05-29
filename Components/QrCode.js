@@ -32,6 +32,7 @@ function QrCode() {
   const [drwtNo5, setDrwtNo5] = useState(""); //당첨번호5
   const [drwtNo6, setDrwtNo6] = useState(""); //당첨번호6
   const [bnusNo, setBnusNo] = useState(""); //보너스 당첨 번호
+  const [returnValue, setReturnValue] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -42,10 +43,16 @@ function QrCode() {
 
   const handleBarCodeScanned = ({ type, data }) => {
     setNumbersArr([]);
+    setScanned(true);
+
     let rndStr = data.split("=");
     let lottoData = rndStr[1].split("q");
     let tempRound = lottoData[0];
     let round = tempRound.replace(/(^0+)/, "");
+
+    for (let i = 1; i < lottoData.length; i++) {
+      setNumbersArr((numbersArr) => [...numbersArr, lottoData[i]]);
+    }
 
     fetch(
       //`https://www.dhlottery.co.kr/common.do?method=getLottoNumber&drwNo=${round}`
@@ -53,52 +60,51 @@ function QrCode() {
     )
       .then((response) => response.json())
       .then((json) => {
-        if (parseInt(json.drwtNo1) < 10) {
-          setDrwtNo1("0" + json.drwtNo1);
+        if (json.returnValue == "fail") {
+          alert("아직 발표되지 않은 회차입니다!");
         } else {
-          setDrwtNo1(String(json.drwtNo1));
+          if (parseInt(json.drwtNo1) < 10) {
+            setDrwtNo1("0" + json.drwtNo1);
+          } else {
+            setDrwtNo1(String(json.drwtNo1));
+          }
+          if (parseInt(json.drwtNo2) < 10) {
+            setDrwtNo2("0" + json.drwtNo2);
+          } else {
+            setDrwtNo2(String(json.drwtNo2));
+          }
+          if (parseInt(json.drwtNo3) < 10) {
+            setDrwtNo3("0" + json.drwtNo3);
+          } else {
+            setDrwtNo3(String(json.drwtNo3));
+          }
+          if (parseInt(json.drwtNo4) < 10) {
+            setDrwtNo4("0" + json.drwtNo4);
+          } else {
+            setDrwtNo4(String(json.drwtNo4));
+          }
+          if (parseInt(json.drwtNo5) < 10) {
+            setDrwtNo5("0" + json.drwtNo5);
+          } else {
+            setDrwtNo5(String(json.drwtNo5));
+          }
+          if (parseInt(json.drwtNo6) < 10) {
+            setDrwtNo6("0" + json.drwtNo6);
+          } else {
+            setDrwtNo6(String(json.drwtNo6));
+          }
+          if (parseInt(json.bnusNo) < 10) {
+            setBnusNo("0" + json.bnusNo);
+          } else {
+            setBnusNo(String(json.bnusNo));
+          }
+          setReturnValue(true);
+          setCurrRound(round);
         }
-        if (parseInt(json.drwtNo2) < 10) {
-          setDrwtNo2("0" + json.drwtNo2);
-        } else {
-          setDrwtNo2(String(json.drwtNo2));
-        }
-        if (parseInt(json.drwtNo3) < 10) {
-          setDrwtNo3("0" + json.drwtNo3);
-        } else {
-          setDrwtNo3(String(json.drwtNo3));
-        }
-        if (parseInt(json.drwtNo4) < 10) {
-          setDrwtNo4("0" + json.drwtNo4);
-        } else {
-          setDrwtNo4(String(json.drwtNo4));
-        }
-        if (parseInt(json.drwtNo5) < 10) {
-          setDrwtNo5("0" + json.drwtNo5);
-        } else {
-          setDrwtNo5(String(json.drwtNo5));
-        }
-        if (parseInt(json.drwtNo6) < 10) {
-          setDrwtNo6("0" + json.drwtNo6);
-        } else {
-          setDrwtNo6(String(json.drwtNo6));
-        }
-        if (parseInt(json.bnusNo) < 10) {
-          setBnusNo("0" + json.bnusNo);
-        } else {
-          setBnusNo(String(json.bnusNo));
-        }
-        setCurrRound(round);
       })
       .catch(function (error) {
         console.log(error);
       });
-
-    for (let i = 1; i < lottoData.length; i++) {
-      setNumbersArr((numbersArr) => [...numbersArr, lottoData[i]]);
-    }
-
-    setScanned(true);
   };
 
   if (hasPermission === null) {
@@ -130,7 +136,7 @@ function QrCode() {
         <Button
           icon="qrcode"
           mode="contained"
-          color="#778899"
+          dark="true"
           style={{ width: Dimensions.get("window").width }}
           labelStyle={{ fontSize: 30 }}
         >
@@ -152,7 +158,7 @@ function QrCode() {
           다시 스캔하기
         </Button>
       )}
-      {scanned &&
+      {numbersArr.length > 0 &&
         drwtNo1 != "" &&
         drwtNo2 != "" &&
         drwtNo3 != "" &&
@@ -168,31 +174,15 @@ function QrCode() {
             drwtNo5={drwtNo5}
             drwtNo6={drwtNo6}
             bnusNo={bnusNo}
-            game1={String(numbersArr[0])}
+            game1={numbersArr.length > 0 ? String(numbersArr[0]) : ""}
             game2={numbersArr.length > 1 ? String(numbersArr[1]) : ""}
             game3={numbersArr.length > 2 ? String(numbersArr[2]) : ""}
             game4={numbersArr.length > 3 ? String(numbersArr[3]) : ""}
             game5={numbersArr.length > 4 ? String(numbersArr[4]) : ""}
             scanned={scanned}
+            returnValue={returnValue}
           ></QrData>
         )}
-      {!scanned && (
-        <QrData
-          drwtNo1={""}
-          drwtNo2={""}
-          drwtNo3={""}
-          drwtNo4={""}
-          drwtNo5={""}
-          drwtNo6={""}
-          bnusNo={""}
-          game1={""}
-          game2={""}
-          game3={""}
-          game4={""}
-          game5={""}
-          scanned={scanned}
-        ></QrData>
-      )}
     </View>
   );
 }
